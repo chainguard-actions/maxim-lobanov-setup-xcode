@@ -1,5 +1,7 @@
 # maxim-lobanov/setup-xcode
 
+ Set up your GitHub Actions workflow with a specific version of Xcode
+
 Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/maxim-lobanov/setup-xcode](https://github.com/maxim-lobanov/setup-xcode).
 
 ## Versions

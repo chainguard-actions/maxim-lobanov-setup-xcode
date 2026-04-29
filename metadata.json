@@ -1,5 +1,6 @@
 {
   "owner": "maxim-lobanov",
   "name": "setup-xcode",
-  "visibility": ""
+  "visibility": "internal",
+  "description": " Set up your GitHub Actions workflow with a specific version of Xcode"
 }
