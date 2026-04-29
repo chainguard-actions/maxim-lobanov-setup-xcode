@@ -1,6 +1,12 @@
 # maxim-lobanov/setup-xcode
 
-Hardened GitHub Action by [Chainguard](https://www.chainguard.dev).
+Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/maxim-lobanov/setup-xcode](https://github.com/maxim-lobanov/setup-xcode).
+
+## Versions
+
+| Version | Tag | Upstream commit |
+|---------|-----|-----------------|
+| v1.7.0 | [`v1.7.0`](https://github.com/chainguard-actions/setup-xcode/tree/v1.7.0) | — |
 
 ## Privacy
 
