@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v1.6.0 | [`v1.6.0`](https://github.com/chainguard-actions/maxim-lobanov-setup-xcode/tree/v1.6.0) | [`60606e2`](https://github.com/maxim-lobanov/setup-xcode/commit/60606e260d2fc5762a71e64e74b2174e8ea3c8bd) |
 | v1.7.0 | [`v1.7.0`](https://github.com/chainguard-actions/maxim-lobanov-setup-xcode/tree/v1.7.0) | — |
 
 ## Privacy
