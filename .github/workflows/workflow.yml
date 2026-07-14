@@ -1,0 +1,38 @@
+name: Build task
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: 0 0 * * *
+
+permissions:
+  contents: read
+
+jobs:
+  Build:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+
+    - name: Set Node.JS
+      uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
+      with:
+        node-version: 16.x
+
+    - name: npm install
+      run: npm install
+
+    - name: Build
+      run: npm run build
+    
+    - name: Run tests
+      run: npm run test
+
+    - name: Run Prettier
+      run: npm run format-check
+
+    - name: Lint
+      run: npm run lint
