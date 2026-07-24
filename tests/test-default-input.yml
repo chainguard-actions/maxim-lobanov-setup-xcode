@@ -1,4 +1,4 @@
-name: Test latest-stable Xcode version
+name: Test default input (no xcode-version specified)
 on:
   workflow_dispatch:
 jobs:
@@ -8,25 +8,24 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: action
         uses: .
-        with:
-          xcode-version: latest-stable
+        # No xcode-version input - should default to 'latest'
       - name: Assert version output is set
         env:
           VERSION: ${{ steps.action.outputs.version }}
         run: |
           echo "version: $VERSION"
           if [ -z "$VERSION" ]; then
-            echo "FAIL: expected version output to be non-empty"
+            echo "FAIL: expected version output to be non-empty when using default input"
             exit 1
           fi
-          echo "PASS: version output is set to $VERSION"
+          echo "PASS: version output is set to $VERSION with default input"
       - name: Assert path output is set and exists
         env:
           PATH_OUT: ${{ steps.action.outputs.path }}
         run: |
           echo "path: $PATH_OUT"
           if [ -z "$PATH_OUT" ]; then
-            echo "FAIL: expected path output to be non-empty"
+            echo "FAIL: expected path output to be non-empty when using default input"
             exit 1
           fi
           if [ ! -d "$PATH_OUT" ]; then
@@ -34,13 +33,12 @@ jobs:
             exit 1
           fi
           echo "PASS: path output is set to $PATH_OUT and exists"
-      - name: Assert version is a stable release (no beta suffix)
-        env:
-          VERSION: ${{ steps.action.outputs.version }}
+      - name: Assert xcode-select is configured
         run: |
-          echo "version: $VERSION"
-          if echo "$VERSION" | grep -qi "beta"; then
-            echo "FAIL: expected stable version but got beta: $VERSION"
+          SELECTED="$(xcode-select -p)"
+          echo "xcode-select -p: $SELECTED"
+          if [ -z "$SELECTED" ]; then
+            echo "FAIL: xcode-select -p returned empty"
             exit 1
           fi
-          echo "PASS: version '$VERSION' appears to be a stable release"
+          echo "PASS: xcode-select is configured to $SELECTED"

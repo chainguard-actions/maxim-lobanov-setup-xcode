@@ -1,0 +1,56 @@
+name: Test basic usage - latest Xcode
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          xcode-version: latest
+      - name: Assert version output is set
+        env:
+          VERSION: ${{ steps.action.outputs.version }}
+          PATH_OUT: ${{ steps.action.outputs.path }}
+        run: |
+          echo "version: $VERSION"
+          echo "path: $PATH_OUT"
+          if [ -z "$VERSION" ]; then
+            echo "FAIL: expected version output to be non-empty"
+            exit 1
+          fi
+          echo "PASS: version output is set to $VERSION"
+      - name: Assert path output is set
+        env:
+          PATH_OUT: ${{ steps.action.outputs.path }}
+        run: |
+          echo "path: $PATH_OUT"
+          if [ -z "$PATH_OUT" ]; then
+            echo "FAIL: expected path output to be non-empty"
+            exit 1
+          fi
+          echo "PASS: path output is set to $PATH_OUT"
+      - name: Assert xcode-select points to the selected version
+        env:
+          PATH_OUT: ${{ steps.action.outputs.path }}
+        run: |
+          SELECTED="$(xcode-select -p)"
+          echo "xcode-select -p: $SELECTED"
+          echo "expected path prefix: $PATH_OUT"
+          if [[ "$SELECTED" != "$PATH_OUT"* ]]; then
+            echo "FAIL: xcode-select does not point to expected path"
+            exit 1
+          fi
+          echo "PASS: xcode-select points to $SELECTED"
+      - name: Assert MD_APPLE_SDK_ROOT env var is set
+        env:
+          SDK_ROOT: ${{ env.MD_APPLE_SDK_ROOT }}
+        run: |
+          echo "MD_APPLE_SDK_ROOT: $SDK_ROOT"
+          if [ -z "$SDK_ROOT" ]; then
+            echo "FAIL: expected MD_APPLE_SDK_ROOT to be set"
+            exit 1
+          fi
+          echo "PASS: MD_APPLE_SDK_ROOT is set to $SDK_ROOT"

@@ -1,0 +1,53 @@
+name: Test semver range version spec
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Get available Xcode versions
+        id: get-versions
+        run: |
+          # Find the major version of the latest Xcode to build a semver range
+          LATEST=$(ls /Applications/ | grep "Xcode" | grep -v "beta" | sort -V | tail -1)
+          echo "Latest Xcode app: $LATEST"
+          # Extract major version number (e.g. "Xcode_15.4.app" -> "15")
+          MAJOR=$(echo "$LATEST" | grep -oE '[0-9]+' | head -1)
+          echo "Major version: $MAJOR"
+          echo "major=$MAJOR" >> $GITHUB_OUTPUT
+      - id: action
+        uses: .
+        with:
+          xcode-version: ${{ steps.get-versions.outputs.major }}
+      - name: Assert version output matches the major version range
+        env:
+          VERSION: ${{ steps.action.outputs.version }}
+          MAJOR: ${{ steps.get-versions.outputs.major }}
+        run: |
+          echo "version: $VERSION"
+          echo "expected major: $MAJOR"
+          if [ -z "$VERSION" ]; then
+            echo "FAIL: expected version output to be non-empty"
+            exit 1
+          fi
+          # Check that the version starts with the expected major version
+          if ! echo "$VERSION" | grep -qE "^${MAJOR}\."; then
+            echo "FAIL: version '$VERSION' does not start with major version '$MAJOR'"
+            exit 1
+          fi
+          echo "PASS: version '$VERSION' matches major version '$MAJOR'"
+      - name: Assert path output is set and exists
+        env:
+          PATH_OUT: ${{ steps.action.outputs.path }}
+        run: |
+          echo "path: $PATH_OUT"
+          if [ -z "$PATH_OUT" ]; then
+            echo "FAIL: expected path output to be non-empty"
+            exit 1
+          fi
+          if [ ! -d "$PATH_OUT" ]; then
+            echo "FAIL: path '$PATH_OUT' does not exist or is not a directory"
+            exit 1
+          fi
+          echo "PASS: path output is set to $PATH_OUT and exists"

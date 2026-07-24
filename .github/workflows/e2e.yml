@@ -7,8 +7,7 @@ on:
   schedule:
     - cron: 0 0 * * *
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   versions-macOS-11:
@@ -20,7 +19,7 @@ jobs:
       fail-fast: false
     steps:
     - name: Checkout
-      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3
 
     - uses: ./
       name: Setup Xcode
@@ -29,11 +28,11 @@ jobs:
         xcode-version: ${{ matrix.xcode-version }}
     - name: Print output variables
       env:
-        SETUP_XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
-        SETUP_XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
+        XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
+        XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
       run: |
-        echo "Version: $SETUP_XCODE_VERSION"
-        echo "Path: $SETUP_XCODE_PATH"
+        echo "Version: $XCODE_VERSION"
+        echo "Path: $XCODE_PATH"
   
   versions-macOS-12:
     name: macOS 12
@@ -44,7 +43,7 @@ jobs:
       fail-fast: false
     steps:
     - name: Checkout
-      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3
 
     - uses: ./
       name: Setup Xcode
@@ -53,11 +52,11 @@ jobs:
         xcode-version: ${{ matrix.xcode-version }}
     - name: Print output variables
       env:
-        SETUP_XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
-        SETUP_XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
+        XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
+        XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
       run: |
-        echo "Version: $SETUP_XCODE_VERSION"
-        echo "Path: $SETUP_XCODE_PATH"
+        echo "Version: $XCODE_VERSION"
+        echo "Path: $XCODE_PATH"
 
   versions-macOS-13:
     name: macOS 13
@@ -68,7 +67,7 @@ jobs:
       fail-fast: false
     steps:
     - name: Checkout
-      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3
 
     - uses: ./
       name: Setup Xcode
@@ -77,8 +76,8 @@ jobs:
         xcode-version: ${{ matrix.xcode-version }}
     - name: Print output variables
       env:
-        SETUP_XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
-        SETUP_XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
+        XCODE_VERSION: ${{ steps.setup-xcode.outputs.version }}
+        XCODE_PATH: ${{ steps.setup-xcode.outputs.path }}
       run: |
-        echo "Version: $SETUP_XCODE_VERSION"
-        echo "Path: $SETUP_XCODE_PATH"
+        echo "Version: $XCODE_VERSION"
+        echo "Path: $XCODE_PATH"
